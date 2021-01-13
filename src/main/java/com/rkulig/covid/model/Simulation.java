@@ -1,9 +1,9 @@
 package com.rkulig.covid.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Simulation {
@@ -14,9 +14,9 @@ public class Simulation {
     //n - name of simulation
     private String n;
     //p - amount of population
-    private Integer p;
+    private Long p;
     //i - initial number of infected people
-    private Integer i;
+    private Long i;
     //r - indicator of how many people one person is infected with
     private Double r;
     //m - mortality indicator
@@ -27,11 +27,14 @@ public class Simulation {
     private Integer tm;
     //ts - Number of days for which the simulation is to be run
     private Integer ts;
+    @OneToMany(mappedBy = "simulation")
+    @JsonManagedReference
+    private List<DayOfSimulation> daysOfSimulation;
 
-    Simulation() {
+    public Simulation() {
     }
 
-    public Simulation(String n, Integer p, Integer i, Double r, Double m, Integer ti, Integer tm, Integer ts) {
+    public Simulation(String n, Long p, Long i, Double r, Double m, Integer ti, Integer tm, Integer ts) {
         this.n = n;
         this.p = p;
         this.i = i;
@@ -58,19 +61,19 @@ public class Simulation {
         this.n = n;
     }
 
-    public Integer getP() {
+    public Long getP() {
         return p;
     }
 
-    public void setP(Integer p) {
+    public void setP(Long p) {
         this.p = p;
     }
 
-    public Integer getI() {
+    public Long getI() {
         return i;
     }
 
-    public void setI(Integer i) {
+    public void setI(Long i) {
         this.i = i;
     }
 
@@ -114,6 +117,14 @@ public class Simulation {
         this.ts = ts;
     }
 
+    public List<DayOfSimulation> getDaysOfSimulation() {
+        return daysOfSimulation;
+    }
+
+    public void setDaysOfSimulation(List<DayOfSimulation> daysOfSimulation) {
+        this.daysOfSimulation = daysOfSimulation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -144,5 +155,21 @@ public class Simulation {
         result = 31 * result + (tm != null ? tm.hashCode() : 0);
         result = 31 * result + (ts != null ? ts.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Simulation{" +
+                "id=" + id +
+                ", n='" + n + '\'' +
+                ", p=" + p +
+                ", i=" + i +
+                ", r=" + r +
+                ", m=" + m +
+                ", ti=" + ti +
+                ", tm=" + tm +
+                ", ts=" + ts +
+                ", daysOfSimulation=" + daysOfSimulation +
+                '}';
     }
 }
