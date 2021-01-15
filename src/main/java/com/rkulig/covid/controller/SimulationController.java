@@ -5,6 +5,7 @@ import com.rkulig.covid.model.Simulation;
 import com.rkulig.covid.repository.DayOfSimulationRepository;
 import com.rkulig.covid.repository.SimulationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,6 @@ import java.net.URI;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/simulations")
 public class SimulationController {
 
     private SimulationRepository simulationRepository;
@@ -27,39 +27,45 @@ public class SimulationController {
     }
 
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Simulation>> allSimulations() {
-        List<Simulation> allSimulations = simulationRepository.findAll();
-        return ResponseEntity.ok(allSimulations);
+    @GetMapping("api/simulations")
+    public List<Simulation> getAll() {
+        return simulationRepository.findAll();
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Simulation> getSimulationById(@PathVariable Long id) {
-        return simulationRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> saveSimulation(@RequestBody Simulation simulation) {
-        simulation.setDaysOfSimulation(new ArrayList<>());
-        Simulation save = simulationRepository.save(simulation);
-        System.out.println(simulation.toString());
-        List<DayOfSimulation> days = makeSimulation(simulation);
-
-        for (int i = 0; i < days.size(); i++) {
-
-            DayOfSimulation day = days.get(i);
-            simulation.getDaysOfSimulation().add(day);
-            dayOfSimulationRepository.save(day);
+    @GetMapping("/api/simulations/{id}")
+    public ResponseEntity<Simulation> getById(@PathVariable Long id) {
+        Simulation simulation = simulationRepository.findById(id).get();
+        if (simulation != null) {
+            return ResponseEntity.ok(simulation);
+        } else {
+            return ResponseEntity.notFound().build();
         }
+    }
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(save.getI())
-                .toUri();
-        return ResponseEntity.created(location).body(save);
+    @PostMapping("/api/simulations")
+    public ResponseEntity<?> saveSimulation(@RequestBody Simulation simulation) {
+        if (simulation.getId() == null) {
+            simulation.setDaysOfSimulation(new ArrayList<>());
+            Simulation save = simulationRepository.save(simulation);
+       //     System.out.println(simulation.toString());
+            List<DayOfSimulation> days = makeSimulation(simulation);
+
+            for (int i = 0; i < days.size(); i++) {
+
+                DayOfSimulation day = days.get(i);
+                simulation.getDaysOfSimulation().add(day);
+                dayOfSimulationRepository.save(day);
+            }
+
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(save.getI())
+                    .toUri();
+            return ResponseEntity.created(location).body(save);
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
     private List<DayOfSimulation> makeSimulation(Simulation simulation) {
@@ -82,12 +88,12 @@ public class SimulationController {
         long prd = 0; // liczba osob ktore wyzdrowialy danego dnia(przyrost)
         int day = 0; // dzień symulacji
 
-        System.out.println("p:" + p + " i:" + i + " r:" + r + " m:" + m + " ti:" + ti + " tm:" + tm + " ts:" + ts);
+     //   System.out.println("p:" + p + " i:" + i + " r:" + r + " m:" + m + " ti:" + ti + " tm:" + tm + " ts:" + ts);
         DayOfSimulation day0 = new DayOfSimulation(day, pi, pv, pm, pr, pia, pid, pmd, prd);
         day0.setSimulation(simulation);
         daysOfSimulation.put(day, day0);
-        System.out.println("dzien zero");
-        System.out.println(daysOfSimulation.get(0));
+     //   System.out.println("dzien zero");
+      //  System.out.println(daysOfSimulation.get(0));
 
         for (int currentDay = 1; currentDay < ts; currentDay++) {
             if (currentDay >= tm) {
@@ -109,7 +115,7 @@ public class SimulationController {
             DayOfSimulation day1 = new DayOfSimulation(day, pi, pv, pm, pr, pia, pid, pmd, prd);
             day1.setSimulation(simulation);
             daysOfSimulation.put(day, day1);
-            System.out.println(daysOfSimulation.get(day));
+        //    System.out.println(daysOfSimulation.get(day));
         }
 
         List<DayOfSimulation> days = new ArrayList<>();

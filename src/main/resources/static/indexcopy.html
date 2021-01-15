@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="app" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulation manager</title>
+</head>
+<body ng-controller="SimulationController as simControl">
+<h1>{{simControl.appName}}</h1>
+<form>
+    <input type="text" ng-model="simControl.simulation.n" placeholder="Nazwa symulacji"><br>
+    <input type="text" ng-model="simControl.simulation.p" placeholder="P - wielkość populacji"><br>
+    <input type="text" ng-model="simControl.simulation.i" placeholder="I - początkowa liczba osób zakażonych"><br>
+    <input type="text" ng-model="simControl.simulation.r" placeholder="R - wskaźnik określający ile osób zaraża jedna zarażona osoba"><br>
+    <input type="text" ng-model="simControl.simulation.m" placeholder="M - wskaźnik śmiertelności, określający ilu spośród zakażonych umiera"><br>
+    <input type="text" ng-model="simControl.simulation.ti" placeholder="Ti - ilość dni która upływa, od momentu zarażenia do wyzdrowienia chorego"><br>
+    <input type="text" ng-model="simControl.simulation.tm" placeholder="Tm - ilość dni, która upływa od momentu zarażenia do śmierci chorego"><br>
+    <input type="text" ng-model="simControl.simulation.ts" placeholder="Ts - ilość dni, dla których ma być przeprowadzona symulacja"><br>
+    <button ng-click="simControl.addSimulation(simControl.simulation)">Dodaj symumlacje</button>
+</form>
+
+<ul>
+    <li ng-repeat="sim in simControl.simulations" ng-click="simControl.loadData(sim.id)">
+        {{sim.n}} -> (P {{sim.p}}) (I {{sim.i}}) (R {{sim.r}}) (M {{sim.m}}) (Ti {{sim.ti}}) (Tm {{sim.tm}}) (Ts {{sim.ts}})
+    </li>
+</ul>
+
+<div ng-show="simControl.details">
+    <h2>{{simControl.details.n}}</h2>
+    <p>Symulacja: {{simControl.details.n}}, Wielkość populacji: {{simControl.details.p}} </p>
+</div>
+
+<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
+<script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
