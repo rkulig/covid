@@ -19,6 +19,7 @@
     "angular-resource": "^1.8.2",
     "bootstrap": "^4.5.3",
     "angular-route": "^1.8.2",
-    "chart.js": "^2.9.4"
+    "chart.js": "^2.9.4",
+    "angular-auto-validate": "^1.19.6"
   }
 }

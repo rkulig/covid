@@ -79,6 +79,9 @@ public class SimulationController {
         int ts = simulation.getTs(); // ilość dni dla której ma być przeprowadzona symulacja
 
         long pi = i; // liczba osób zarażonych od początku pandemii
+        if (pi>p){
+            pi=p;
+        }
         long pv = p - pi; // liczba osób zdrowych, podatnych na infekcje
         long pm = 0; // liczba osób zmarłych od początku pandemii
         long pr = 0; // liczba osób które wyzdrowiały i nabyły odporność od początku pandemii
@@ -87,7 +90,8 @@ public class SimulationController {
         long pmd = 0; // liczba zmarlych danego dnia (przyrost)
         long prd = 0; // liczba osob ktore wyzdrowialy danego dnia(przyrost)
         int day = 0; // dzień symulacji
-
+int l =01;
+        System.out.println(l);
      //   System.out.println("p:" + p + " i:" + i + " r:" + r + " m:" + m + " ti:" + ti + " tm:" + tm + " ts:" + ts);
         DayOfSimulation day0 = new DayOfSimulation(day, pi, pv, pm, pr, pia, pid, pmd, prd);
         day0.setSimulation(simulation);
@@ -96,13 +100,18 @@ public class SimulationController {
       //  System.out.println(daysOfSimulation.get(0));
 
         for (int currentDay = 1; currentDay < ts; currentDay++) {
-            if (currentDay >= tm) {
+            if (currentDay >= tm) { // zmarli dane dnia
                 pmd = Math.round(m * (daysOfSimulation.get(currentDay - tm).getPid()));
             }
-            if (currentDay >= ti) {
+            if (currentDay >= ti) { //ozdrowiali danego dnia
                 prd = Math.round((1 - m) * (daysOfSimulation.get(currentDay - ti).getPid()));
             }
-            pid = (long) (pia * r);
+            pid = (long) (pia * r); //liczba osob u ktorych sie uaktywnil te dnia wirus
+            if (p==0){
+                pid=0;
+            } else if (pi+pid>p){
+                pid=p-pi;
+            }
             pia = pia + pid - pmd - prd;
             if (pia <= 0) {
                 pia = 0;
@@ -111,6 +120,9 @@ public class SimulationController {
             pm = pm + pmd;
             pi = pi + pid;
             pv = p - pi;
+            if (pv<=0){
+                pv=0;
+            }
             day++;
             DayOfSimulation day1 = new DayOfSimulation(day, pi, pv, pm, pr, pia, pid, pmd, prd);
             day1.setSimulation(simulation);

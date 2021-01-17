@@ -1,7 +1,13 @@
-<h1>List of all simulations</h1>
-<ul>
-    <li ng-repeat="b in listCtrl.simulations">
-        <a ng-href="#!details/{{b.id}}"> {{b.n}} -> (P {{b.p}}) (I {{b.i}}) (R {{b.r}}) (M {{b.m}}) (Ti {{b.ti}}) (Tm {{b.tm}}) (Ts {{b.ts}})</a>
-    </li>
-</ul>
+<div class="row">
+    <div class="col-2"></div>
+    <div style="text-align: left" class="col-8">
+        <h5>Lista dostępnych symulacji: </h5>
+        <ul>
+            <li ng-repeat="b in listCtrl.simulations">
+                <a ng-href="#!details/{{b.id}}"> {{b.n}} (kliknij aby zobaczyć symulację) </a> <a ng-href="#!details/{{b.id}}">usuń</a>
+            </li>
+        </ul>
 
+    </div>
+    <div class="col-2"></div>
+</div>

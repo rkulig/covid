@@ -1,6 +1,7 @@
 package com.rkulig.covid.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,20 +13,28 @@ public class Simulation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //n - name of simulation
+
     private String n;
     //p - amount of population
+
     private Long p;
     //i - initial number of infected people
+
     private Long i;
     //r - indicator of how many people one person is infected with
+
     private Double r;
     //m - mortality indicator
+
     private Double m;
     //ti - number of days from the time of infection until the patient's recovery
+
     private Integer ti;
     //tm - number of days from the time of infection to the patient's death
+
     private Integer tm;
     //ts - Number of days for which the simulation is to be run
+
     private Integer ts;
     @OneToMany(mappedBy = "simulation")
     @JsonManagedReference

@@ -1,11 +1,31 @@
-<h1>Simulation parameteres:</h1>
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <h3>{{detailsCtrl.simulation.n}}</h3>
+        <h6>Parametry symulacji &nbsp;P:{{detailsCtrl.simulation.p}} &nbsp;I:{{detailsCtrl.simulation.i}}
+            &nbsp;R:{{detailsCtrl.simulation.r}} &nbsp;M:{{detailsCtrl.simulation.m}}
+            &nbsp;Ti:{{detailsCtrl.simulation.ti}}
+            &nbsp;Tm:{{detailsCtrl.simulation.tm}} &nbsp;Ts:{{detailsCtrl.simulation.ts}}</h6>
+        <p>&nbsp; </p>
+        <p> &nbsp;</p>
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <div style="width: 80%; text-align: center" class="m-auto">
 
-<h2>{{detailsCtrl.simulation.n}} P {{detailsCtrl.simulation.p}} I {{detailsCtrl.simulation.i}}
-    R {{detailsCtrl.simulation.r}} M {{detailsCtrl.simulation.m}} Ti {{detailsCtrl.simulation.ti}}
-    Tm {{detailsCtrl.simulation.tm}} Ts {{detailsCtrl.simulation.ts}}</h2>
+                <canvas id="lineChart1" width="400" height="400"></canvas>
+            </div>
+            <p> &nbsp;</p>
+            <p> &nbsp;</p>
+            <div style="width: 80%; text-align: center" class="m-auto">
+                <canvas id="lineChart2" width="400" height="400"></canvas>
+            </div>
+            <p> &nbsp;</p>
+            <p> &nbsp;</p>
 
-<h1>Simulation details:</h1>
-<h2>{{detailsCtrl.simulation.daysOfSimulation}}</h2>
-<h2>{{detailsCtrl.simulation.daysOfSimulation[0].pid}}</h2>
+            <div style="width: 50%; text-align: center" class="m-auto">
+                <canvas id="lineChart3" width="200" height="200"></canvas>
+            </div>
 
-<canvas id="lineChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+    <div class="col-1"></div>
+</div>

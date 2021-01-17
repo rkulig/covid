@@ -1,12 +1,45 @@
-<h1>Add new simulation</h1>
-<form>
-    <input type="text" ng-model="newCtrl.simulation.n" placeholder="Nazwa symulacji"><br>
-    <input type="text" ng-model="newCtrl.simulation.p" placeholder="P - wielkość populacji"><br>
-    <input type="text" ng-model="newCtrl.simulation.i" placeholder="I - początkowa liczba osób zakażonych"><br>
-    <input type="text" ng-model="newCtrl.simulation.r" placeholder="R - wskaźnik określający ile osób zaraża jedna zarażona osoba"><br>
-    <input type="text" ng-model="newCtrl.simulation.m" placeholder="M - wskaźnik śmiertelności, określający ilu spośród zakażonych umiera"><br>
-    <input type="text" ng-model="newCtrl.simulation.ti" placeholder="Ti - ilość dni która upływa, od momentu zarażenia do wyzdrowienia chorego"><br>
-    <input type="text" ng-model="newCtrl.simulation.tm" placeholder="Tm - ilość dni, która upływa od momentu zarażenia do śmierci chorego"><br>
-    <input type="text" ng-model="newCtrl.simulation.ts" placeholder="Ts - ilość dni, dla których ma być przeprowadzona symulacja"><br>
-    <button ng-click="newCtrl.saveSimulation()">Dodaj symumlacje</button>
-</form>
+<div class="container-lg" style="width:70%;">
+    <h1></h1>
+    <form novalidate="novalidate" name="parametersOfSimulation" autocomplete="off">
+        <div class="form-group">
+            <input class="form-control" pattern="^[\w]+$"   ng-model="newCtrl.simulation.n"
+                   ng-minlength-err-type="errorTypeN" placeholder="Nazwa symulacji" required><br>
+        </div>
+        <div class="form-group">
+            <input class="form-control" pattern="^[1-9]+[0-9]{0,9}$" ng-model="newCtrl.simulation.p"  placeholder="P - wielkość populacji"
+                   pattern-err-type="errorTypeP" required><br>
+        </div>
+        <div class="form-group">
+            <input class="form-control" pattern="^[1-9]+[0-9]{0,9}$" ng-model="newCtrl.simulation.i"
+                   pattern-err-type="errorTypeI" placeholder="I - początkowa liczba osób zakażonych" aria-label="default input example" required><br>
+        </div>
+        <div class="form-group">
+            <input class="form-control" pattern="^[0-9]{0,9}$" ng-model="newCtrl.simulation.r"
+                   placeholder="R - wskaźnik określający ile osób zaraża jedna zarażona osoba (np. 3)"
+                   pattern-err-type="errorTypeR" required><br>
+        </div>
+        <div class="form-group">
+            <input class="form-control" pattern="^0\.[0-9]*[1-9]+[0-9]*$" ng-model="newCtrl.simulation.m"
+                   placeholder="M - wskaźnik śmiertelności, określający ilu spośród zakażonych umiera (np. 0.1)"
+                   pattern-err-type="errorTypeM" required><br>
+        </div>
+        <div class="form-group">
+            <input class="form-control" pattern="^[1-9]+[0-9]{0,9}$" ng-model="newCtrl.simulation.ti"
+                   placeholder="Ti - ilość dni która upływa, od momentu zarażenia do wyzdrowienia chorego"
+                   pattern-err-type="errorTypeTi" required><br>
+        </div>
+        <div class="form-group">
+            <input class="form-control" pattern="^[1-9]+[0-9]{0,9}$" ng-model="newCtrl.simulation.tm"
+                   placeholder="Tm - ilość dni, która upływa od momentu zarażenia do śmierci chorego"
+                   pattern-err-type="errorTypeTm" required><br>
+        </div>
+        <div class="form-group">
+            <input class="form-control" pattern="^[1-9]+[0-9]{0,9}$" ng-model="newCtrl.simulation.ts"
+                   placeholder="Ts - ilość dni, dla których ma być przeprowadzona symulacja"
+                   pattern-err-type="errorTypeTs" required><br>
+        </div>
+        <button ng-click="newCtrl.saveSimulation()" ng-disabled="parametersOfSimulation.$invalid" class="btn btn-secondary">Dodaj symumlacje</button>
+    </form>
+</div>
+
+
